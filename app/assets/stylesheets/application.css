@@ -5,3 +5,42 @@
  *= require_self
  *= require_tree . 
 */
+
+/** RESET **/
+
+body {
+    font-family: Helvetica, sans-serif;
+    font-size: 14px;
+}
+
+* {
+    font-size: 1em;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style-type: none;
+}
+
+fieldset {
+    border: none;
+}
+
+/** INPUTS **/
+
+.input {
+    line-height: 2.5em;
+}
+
+.input label {
+    display: block;
+    float: left;
+    vertical-align: middle;    
+    width: 150px;
+}
+
+input[type=text], input[type=password] {
+    border: solid 1px black;
+}
