@@ -10,6 +10,9 @@ class NodesController < ApplicationController
     @node = @user.nodes.by_path(params[:path])
     if @node
       render :text => @node.data, :content_type => @node.content_type
+    elsif params[:path] =~ /\/$/
+      # empty directory.
+      render :json => {}
     else
       not_found
     end
