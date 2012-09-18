@@ -1,0 +1,11 @@
+
+= semantic_form_for @session, :url => :session do |f|
+
+  - if params[:auth]
+    = hidden_field_tag 'auth[scope]', params[:auth][:scope]
+    = hidden_field_tag 'auth[redirect_uri]', params[:auth][:redirect_uri]
+
+  = f.input :login
+  = f.input :password
+
+  = f.buttons :commit

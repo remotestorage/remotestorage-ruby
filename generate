@@ -1,0 +1,9 @@
+#!/bin/bash
+
+
+rails new . -T &&
+
+rails generate model Node path:string data:text directory:boolean updated_at:datetime &&
+rails generate model Authorization token:string scope:text &&
+rails generate controller nodes get put delete &&
+rails generate controller authorizations

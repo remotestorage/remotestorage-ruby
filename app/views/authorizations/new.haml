@@ -1,0 +1,23 @@
+
+= semantic_form_for @authorization do |f|
+
+  %pre= f.object.errors.full_messages
+
+  = f.hidden_field :scope
+  = f.hidden_field :redirect_uri
+
+  %p
+    The app at
+    %strong{:title => f.object.origin}= f.object.origin_host
+    requests access to the following things:
+
+  %table{:border => '1', :style => 'border-collapse:collapse'}
+    %tr
+      %th Thing
+      %th Mode
+    - f.object.scopes.each_pair do |path, mode|
+      %tr
+        %td= scope_name(path)
+        %td= mode == 'r' ? 'read only' : 'read and write'
+
+  = f.commit_button

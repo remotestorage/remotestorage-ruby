@@ -1,0 +1,10 @@
+
+%strong Logged in as:
+= current_user.login
+= link_to "Logout", session_path, :method => :delete
+
+
+%br/
+%br/
+
+= link_to "Authorizations", :authorizations
