@@ -11,7 +11,7 @@ class NodesController < ApplicationController
     if @node
       render :text => @node.data, :content_type => @node.content_type
     else
-      render :status => 404, :text => 'Not Found'
+      not_found
     end
   end
 
@@ -21,7 +21,10 @@ class NodesController < ApplicationController
   end
 
   def delete
-    @user.nodes.find_by_path(params[:path]).destroy
+    @node = @user.nodes.by_path(params[:path])
+    unless @node.directory?
+      @node.destroy
+    end
     render :status => 200, :text => ''
   end
 
@@ -29,6 +32,7 @@ class NodesController < ApplicationController
 
   def fetch_user
     @user = User.find_by_login(params[:user])
+    not_found unless @user
   end
 
   def authorize
@@ -68,6 +72,10 @@ class NodesController < ApplicationController
 
   def access_denied
     render :status => 401, :text => 'denied.'
+  end
+
+  def not_found
+    render :status => 404, :text => 'Not Found'
   end
 
   def fix_path

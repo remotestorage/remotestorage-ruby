@@ -4,7 +4,10 @@ class Node < ActiveRecord::Base
 
     def put(path, data, content_type)
       node = by_path(path)
-      if node
+      if node && node.directory?
+        # prevent PUT on directories (remoteStorage.js shouldn't send them anyway...)
+        return
+      elsif node
         node.update_attributes!(:data => data, :content_type => content_type)
       else
         create!(:path => path, :data => data, :directory => false, :content_type => content_type)
@@ -27,7 +30,8 @@ class Node < ActiveRecord::Base
   validates_presence_of :content_type
 
   validate :clean_path
-  after_save :update_parent
+  after_save :update_parent_on_save
+  after_destroy :update_parent_on_destroy
 
   def parent
     return nil if path.empty?
@@ -44,7 +48,7 @@ class Node < ActiveRecord::Base
     end
   end
 
-  def update_child!(child)
+  def update_child!(child, remove)
     listing = directory_listing
     child_parts = child.path.split('/')
     key = child_parts.last
@@ -52,7 +56,11 @@ class Node < ActiveRecord::Base
     if prefix != self.path
       raise "invalid child: #{self.path.inspect} != #{prefix.inspect}"
     end
-    listing[key] = child.updated_at.to_i
+    if remove
+      listing.delete(key)
+    else
+      listing[key] = child.updated_at.to_i
+    end
     update_directory(listing)
     save!
   end
@@ -63,9 +71,15 @@ class Node < ActiveRecord::Base
     self.path = self.class.clean_path(self.path)
   end
 
-  def update_parent
+  def update_parent_on_save
     if parent
-      parent.update_child!(self)
+      parent.update_child!(self, false)
+    end
+  end
+
+  def update_parent_on_destroy
+    if parent
+      parent.update_child!(self, true)
     end
   end
 
