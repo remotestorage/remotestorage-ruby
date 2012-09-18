@@ -16,6 +16,9 @@ if defined?(Bundler)
 end
 
 module RemoteStorage
+
+  HOSTNAME = 'heahdk.net'
+
   class Application < Rails::Application
 
     require 'uri/acct'
