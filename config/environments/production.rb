@@ -49,7 +49,8 @@ RemoteStorage::Application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   config.action_controller.default_url_options = {
-    :host => RemoteStorage::HOSTNAME
+    :host => RemoteStorage::HOSTNAME,
+    :protocol => 'https'
   }
 
   # Enable threaded mode
