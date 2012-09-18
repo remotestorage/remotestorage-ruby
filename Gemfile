@@ -23,7 +23,8 @@ gem 'authlogic'
 gem 'haml'
 gem 'formtastic'
 
-gem 'thin'
+gem 'pg'
+gem 'unicorn'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
