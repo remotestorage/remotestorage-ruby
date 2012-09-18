@@ -15,6 +15,7 @@ RemoteStorage::Application.routes.draw do
   delete "/storage/:user/*path", :to => 'nodes#delete'
 
   get '/dashboard', :to => 'dashboard#index'
+  get '/dashboard/:action', :to => 'dashboard'
 
 
 

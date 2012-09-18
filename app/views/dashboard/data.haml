@@ -1,0 +1,13 @@
+
+%table{:border => '1', :style => 'border-collapse:collapse'}
+  %thead
+    %tr
+      %th Path
+      %th Content-Type
+      %th Last updated
+  %tbody
+    - @nodes.each do |node|
+      %tr
+        %td= node.path
+        %td= node.content_type
+        %td= node.updated_at

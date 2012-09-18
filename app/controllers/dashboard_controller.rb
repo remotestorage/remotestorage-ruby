@@ -5,4 +5,8 @@ class DashboardController < ApplicationController
   def index
   end
 
+  def data
+    @nodes = Node.all
+  end
+
 end
