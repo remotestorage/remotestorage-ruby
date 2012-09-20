@@ -65,6 +65,10 @@ class Node < ActiveRecord::Base
     save!
   end
 
+  def bytesize
+    [path, data, content_type].map(&:bytesize).inject(:+)
+  end
+
   private
 
   def clean_path

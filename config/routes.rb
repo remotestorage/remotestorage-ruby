@@ -17,6 +17,7 @@ RemoteStorage::Application.routes.draw do
   get '/dashboard', :to => 'dashboard#index'
   get '/dashboard/:action', :to => 'dashboard'
 
+  root :to => 'root#index'
 
 
 end

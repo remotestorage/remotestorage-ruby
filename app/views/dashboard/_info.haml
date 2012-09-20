@@ -1,0 +1,15 @@
+
+%h2 Overview
+.split
+  .right.info
+    .key Last logged in:
+    .value= pretty_time(current_user.last_login_at)
+    .key Quota:
+    .value= current_user.quota_info
+  .left
+    %h3 Actions:
+    %ul
+      %li= link_to "Change Password"
+
+
+%br/

@@ -44,3 +44,69 @@ fieldset {
 input[type=text], input[type=password] {
     border: solid 1px black;
 }
+
+input[type=submit] {
+    margin-left: 150px;
+}
+
+/** TYPOGRAPHY **/
+
+h1 {
+    font-size: 1.6em;
+    font-weight: bold;
+    line-height: 3em;
+    text-align: right;
+}
+
+h2 {
+    background: #a2a2a2;
+    color: #ddd;
+    font-size: 1.4em;
+    font-weight: bold;
+    line-height: 3em;
+    margin-bottom: 1em;
+    text-indent: 1em;
+}
+
+p {
+    padding: 0.5em 0.5em 1em 0.5em;
+}
+
+/** LAYOUT **/
+
+#wrapper {
+    border-color: #a2a2a2;
+    border-style: none solid;
+    border-width: 1px;
+    margin: auto;
+    min-height: 600px;
+    width: 720px;
+}
+
+
+.info .key {
+    clear: both;
+    float: left;
+    font-weight: bold;
+    width: 150px;
+}
+
+.info .value {
+    margin-left: 150px;
+}
+
+.split .left {
+    float: left;
+    width: 360px;
+}
+
+.split .right {
+    margin-left: 360px;
+    width: 360px;
+}
+
+#login_state {
+    line-height: 2em;
+    margin-right: 3em;
+    text-align: right;
+}

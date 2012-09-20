@@ -2,4 +2,12 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  time:
+    ago:
+      minutes: "%{count} minutes ago"
+      hours: "%{count} hours ago"
+
+  formtastic:
+    actions:
+      sessions:
+        create: "Log in"

@@ -1,0 +1,10 @@
+%h1 Welcome to your storage
+
+.split
+  .left
+    %h2 Need an Account?
+    %p Please #{link_to "click here", :new_user} to sign up.
+  .right
+    %h2 Already have an Account?
+    %p Please sign in here:
+    = render "sessions/new"
