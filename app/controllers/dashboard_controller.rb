@@ -6,7 +6,7 @@ class DashboardController < ApplicationController
   end
 
   def data
-    @nodes = Node.all
+    @nodes = current_user.nodes
   end
 
 end
