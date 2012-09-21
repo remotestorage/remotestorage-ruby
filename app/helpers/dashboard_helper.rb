@@ -1,6 +1,7 @@
 module DashboardHelper
 
   def pretty_time(time)
+    return 'never' unless time
     offset = Time.now - time
 
     if offset < 1.hour
