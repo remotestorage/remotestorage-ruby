@@ -37,7 +37,7 @@ class Node < ActiveRecord::Base
     return nil if path.empty?
     parent = user.nodes.where(:path => parent_path, :directory => true).first
     unless parent
-      parent = user.nodes.new(:path => parent_path, :directory => true)
+      parent = user.nodes.create!(:path => parent_path, :directory => true)
     end
     return parent
   end
