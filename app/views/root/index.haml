@@ -2,9 +2,34 @@
 
 .split
   .left
-    %h2 Need an Account?
+    %h2 What is this?
+
+    %p
+      This is a #{link_to "remotestorage server", "http://remotestorage.io"}, that you can use for #{link_to "unhosted web apps", "http://unhosted.org"}, which support the remotestorage #{link_to "2012.04 specification", "http://www.w3.org/community/unhosted/wiki/RemoteStorage-2012.04"}.
+
+    %p It works with remoteStorage.js, version 0.7+.
+
+    %h2 Will my data be safe?
+
+    %p
+      %strong No, it won't.
+      This service is meant as an option for developers who don't have their own remotestorage server or want to test their apps against multiple storage providers.
+    %p
+      I won't delete your data on purpose, but I also won't guarantee that it won't disappear. Also there may still be #{link_to "bugs", "https://github.com/RemoteStorage/remotestorage-ruby/issues"} in this server :-)
+
+    %h2 Where is the code?
+
+    %p
+      Find it on #{link_to "github", "https://github.com/RemoteStorage/remotestorage-ruby"}.
+
+      If this service gives you any trouble, please #{link_to "open an issue", "https://github.com/RemoteStorage/remotestorage-ruby/issues/new"} there.
+
+    %h2 Still want to try it?
+
     %p Please #{link_to "click here", :new_user} to sign up.
   .right
     %h2 Already have an Account?
     %p Please sign in here:
     = render "sessions/new"
+
+.clear
