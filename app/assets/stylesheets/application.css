@@ -37,6 +37,7 @@ fieldset {
 .input label {
     display: block;
     float: left;
+    text-indent: 0.5em;
     vertical-align: middle;    
     width: 150px;
 }
@@ -68,11 +69,25 @@ h2 {
     text-indent: 1em;
 }
 
+a {
+    color: #a2a2c3;
+    font-weight: bold;
+}
+
+strong {
+    font-weight: bold;
+}
+
 p {
     padding: 0.5em 0.5em 1em 0.5em;
+    line-height: 1.3em;
 }
 
 /** LAYOUT **/
+
+.clear {
+    clear: both;
+}
 
 #wrapper {
     border-color: #a2a2a2;
@@ -101,8 +116,9 @@ p {
 }
 
 .split .right {
+    border-left: solid 1px #a2a2a2;
     margin-left: 360px;
-    width: 360px;
+    width: 359px;
 }
 
 #login_state {
@@ -110,3 +126,4 @@ p {
     margin-right: 3em;
     text-align: right;
 }
+

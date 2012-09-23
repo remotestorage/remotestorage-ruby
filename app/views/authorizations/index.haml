@@ -1,4 +1,19 @@
 
-%ul
-  - @authorizations.each do |auth|
-    %li= auth.token
+%h2 Tokens
+
+- if @authorizations.empty?
+  %em No tokens found.
+- else
+  %table
+    %tr
+      %th Scope
+      %th Token
+      %th Created
+      %th
+    - @authorizations.each do |auth|
+      %tr
+        %td= auth.scope
+        %td= auth.token
+        %th= pretty_time(auth.created_at)
+        %td
+          = link_to "Destroy", auth, :method => :delete, :confirm => "You're probably sure you want to do it, but anyway, nice to be asked. So just click OK or CANCEL depending on your mood."
