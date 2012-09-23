@@ -9,6 +9,25 @@ class Authorization < ActiveRecord::Base
 
   validates_presence_of :origin, :token
 
+  class << self
+
+    def recover(params)
+      where(:origin => extract_origin(params[:redirect_uri]), :scope => params[:scope]).first
+    end
+
+    def extract_origin(url)
+      uri = URI.parse(url)
+      if( (uri.scheme == 'https' && uri.port == 443) ||
+          (uri.scheme == 'http' && uri.port = 80) )
+        host_with_port = uri.host
+      else
+        host_with_port = "#{uri.host}:#{uri.port}"
+      end
+      return "#{uri.scheme}://#{host_with_port}"
+    end
+
+  end
+
   def scopes
     scope.split(/\s+/).inject({}) {|scopes, s|
       path, mode = s.split(':')
@@ -43,14 +62,7 @@ class Authorization < ActiveRecord::Base
   def set_origin
     return if read_attribute(:origin)
     if @redirect_uri
-      uri = URI.parse(@redirect_uri)
-      if( (uri.scheme == 'https' && uri.port == 443) ||
-          (uri.scheme == 'http' && uri.port = 80) )
-        host_with_port = uri.host
-      else
-        host_with_port = "#{uri.host}:#{uri.port}"
-      end
-      return self.origin = "#{uri.scheme}://#{host_with_port}"
+      return self.origin = self.class.extract_origin(@redirect_uri)
     else
       errors.add(:redirect_uri, :blank)
     end

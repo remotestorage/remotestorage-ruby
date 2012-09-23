@@ -48,11 +48,18 @@ class Node < ActiveRecord::Base
     end
   end
 
+  def basename
+    path.split('/').last
+  end
+
+  def pathname
+    path.split('/')[0..-2]
+  end
+
   def update_child!(child, remove)
     listing = directory_listing
-    child_parts = child.path.split('/')
-    key = child_parts.last
-    prefix = child_parts[0..-2].join('/')
+    key = child.basename
+    prefix = child.pathname
     if prefix != self.path
       raise "invalid child: #{self.path.inspect} != #{prefix.inspect}"
     end

@@ -1,0 +1,6 @@
+= semantic_form_for current_user, :url => "/password_changes", :method => :post do |f|
+  = f.input :old_password
+  = f.input :password
+  = f.input :password_confirmation
+
+  = f.commit_button

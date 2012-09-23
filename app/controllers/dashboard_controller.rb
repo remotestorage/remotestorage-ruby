@@ -6,7 +6,7 @@ class DashboardController < ApplicationController
   end
 
   def data
-    @nodes = current_user.nodes
+    @nodes = current_user.nodes.order(:updated_at)
   end
 
 end

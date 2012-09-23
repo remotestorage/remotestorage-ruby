@@ -7,7 +7,11 @@ class AuthorizationsController < ApplicationController
   end
 
   def new
-    @authorization = collection.new(auth_params)
+    if @authorization = collection.recover(auth_params)
+      redirect_to @authorization.token_redirect_uri
+    else
+      @authorization = collection.new(auth_params)
+    end
   end
 
   def create
@@ -20,9 +24,9 @@ class AuthorizationsController < ApplicationController
   end
 
   def destroy
-    @authorization = collection.get(params[:id])
+    @authorization = collection.find(params[:id])
     if @authorization
-      @authrization.destroy
+      @authorization.destroy
     end
     redirect_to :action => 'index'
   end

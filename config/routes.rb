@@ -5,7 +5,9 @@ RemoteStorage::Application.routes.draw do
   resource :session
 
   resources :users
+  resources :password_changes, :only => [:new, :create]
   resources :authorizations
+  resources :apps
 
   match '/storage/*path', :to => 'application#cors_allow', :via => :options
   match '/.well-known/host-meta', :to => 'application#cors_allow', :via => :options

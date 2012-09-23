@@ -1,0 +1,11 @@
+%h2 Apps
+
+%p
+  = link_to "New app", :new_app
+
+- if @apps.empty?
+  %em No apps installed.
+- else
+  %ul
+    - @apps.each do |app|
+      %li= link_to app.name, start_app_url(app), :target => '_blank'
