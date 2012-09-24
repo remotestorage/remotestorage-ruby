@@ -12,8 +12,8 @@ class Authorization < ActiveRecord::Base
   class << self
 
     def recover(params)
-      where(:origin => extract_origin(params[:redirect_uri]), :scope => params[:scope]).first.tap {|auth|
-        auth.redirect_uri = params[:redirect_uri]
+      where(:origin => extract_origin(params[:redirect_uri]), :scope => params[:scope]).first.tap { |auth|
+        auth.redirect_uri = params[:redirect_uri] if auth
       }
     end
 
