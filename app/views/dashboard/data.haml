@@ -8,6 +8,8 @@
   %tbody
     - @nodes.each do |node|
       %tr
-        %td= node.path
+        %td
+          = "#{node.pathname}#{node.pathname.length > 0 ? '/' : ''}"
+          %strong= node.basename
         %td= node.content_type
         %td= node.updated_at
