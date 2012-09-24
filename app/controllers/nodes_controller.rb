@@ -8,6 +8,7 @@ class NodesController < ApplicationController
 
   def get
     @node = @user.nodes.by_path(params[:path])
+    headers['Last-Modified'] = (@node ? @node.updated_at : Time.now).iso8601
     if @node
       render :text => @node.data, :content_type => @node.content_type
     elsif params[:path] =~ /\/$/
@@ -20,7 +21,7 @@ class NodesController < ApplicationController
 
   def put
     @user.nodes.put(params[:path], request.raw_post, request.content_type)
-    render :status => 200, :text => ''
+    render :text => ''
   end
 
   def delete
@@ -28,7 +29,7 @@ class NodesController < ApplicationController
     unless @node.directory?
       @node.destroy
     end
-    render :status => 200, :text => ''
+    render :text => ''
   end
 
   private
