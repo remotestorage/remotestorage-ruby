@@ -27,7 +27,7 @@ class Node < ActiveRecord::Base
   belongs_to :user
 
   validates_uniqueness_of :path
-  validates_presence_of :content_type
+  validates_presence_of :content_type, :data
 
   validate :clean_path
   after_save :update_parent_on_save
@@ -37,7 +37,9 @@ class Node < ActiveRecord::Base
     return nil if path.empty?
     parent = user.nodes.where(:path => parent_path, :directory => true).first
     unless parent
-      parent = user.nodes.create!(:path => parent_path, :directory => true)
+      parent = user.nodes.new(:path => parent_path, :directory => true)
+      parent.__send__ :ensure_directory_listing
+      parent.save!
     end
     return parent
   end
@@ -49,11 +51,11 @@ class Node < ActiveRecord::Base
   end
 
   def basename
-    path.split('/').last
+    "#{path.split('/').last}#{directory? ? '/' : ''}"
   end
 
   def pathname
-    path.split('/')[0..-2]
+    path.split('/')[0..-2].join('/')
   end
 
   def update_child!(child, remove)
@@ -103,6 +105,10 @@ class Node < ActiveRecord::Base
     JSON.parse(self.data)
   rescue => exc
     {}
+  end
+
+  def ensure_directory_listing
+    update_directory(directory_listing)
   end
 
   def update_directory(listing)
