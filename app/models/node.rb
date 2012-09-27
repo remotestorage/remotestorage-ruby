@@ -4,13 +4,15 @@ class Node < ActiveRecord::Base
 
     def put(path, data, content_type)
       node = by_path(path)
-      if node && node.directory?
-        # prevent PUT on directories (remoteStorage.js shouldn't send them anyway...)
-        return
-      elsif node
-        node.update_attributes!(:data => data, :content_type => content_type)
-      else
-        create!(:path => path, :data => data, :directory => false, :content_type => content_type)
+      transaction do
+        if node && node.directory?
+          # prevent PUT on directories (remoteStorage.js shouldn't send them anyway...)
+          return
+        elsif node
+          node.update_attributes!(:data => data, :content_type => content_type)
+        else
+          create!(:path => path, :data => data, :directory => false, :content_type => content_type)
+        end
       end
     end
 
