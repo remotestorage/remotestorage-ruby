@@ -35,13 +35,19 @@ class Node < ActiveRecord::Base
   after_save :update_parent_on_save
   after_destroy :update_parent_on_destroy
 
+  def parent_path
+    self.path.split('/')[0..-2].join('/')
+  end
+
   def parent
     retried = false
     return nil if path.empty?
-    parent = user.nodes.where(:path => parent_path, :directory => true).first
+    pp = parent_path
+    parent = user.nodes.where(:path => pp, :directory => true).first
     unless parent
-      parent = user.nodes.new(:path => parent_path, :directory => true)
+      parent = user.nodes.new(:path => pp, :directory => true)
       parent.__send__ :ensure_directory_listing
+      logger.info("Saving parent: #{parent.path}")
       parent.save!
     end
     return parent
@@ -101,10 +107,6 @@ class Node < ActiveRecord::Base
     if parent
       parent.update_child!(self, true)
     end
-  end
-
-  def parent_path
-    self.path.split('/')[0..-2].join('/')
   end
 
   def directory_listing
