@@ -28,7 +28,7 @@ class Node < ActiveRecord::Base
 
   belongs_to :user
 
-  validates_uniqueness_of :path
+  validates_uniqueness_of :path, :scope => :user_id
   validates_presence_of :content_type, :data
 
   validate :clean_path
@@ -36,7 +36,7 @@ class Node < ActiveRecord::Base
   after_destroy :update_parent_on_destroy
 
   def parent_path
-    self.path.split('/')[0..-2].join('/')
+    self.path.split('/')[0..-2].join('/') || ''
   end
 
   def parent
