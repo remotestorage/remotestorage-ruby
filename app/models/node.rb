@@ -36,6 +36,7 @@ class Node < ActiveRecord::Base
   after_destroy :update_parent_on_destroy
 
   def parent
+    retried = false
     return nil if path.empty?
     parent = user.nodes.where(:path => parent_path, :directory => true).first
     unless parent
@@ -44,6 +45,10 @@ class Node < ActiveRecord::Base
       parent.save!
     end
     return parent
+  rescue ActiveRecord::RecordInvalid => exc
+    raise exc unless retried
+    retried = true
+    retry
   end
 
   def children
