@@ -24,6 +24,21 @@ class Node < ActiveRecord::Base
     def clean_path(path)
       path.split('/').reject(&:empty?).join('/')
     end
+
+    def repair_directories
+      transaction do
+        where(:directory => true).each do |dir|
+          puts "CLEAR #{dir.path}"
+          dir.update_attributes!(:data => "{}")
+        end
+        where(:directory => false) do |node|
+          puts "SET #{node.path}"
+          if node.parent
+            node.parent.update_child!(self, false)
+          end
+        end
+      end
+    end
   end
 
   belongs_to :user
