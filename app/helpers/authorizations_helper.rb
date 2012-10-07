@@ -1,9 +1,9 @@
 module AuthorizationsHelper
   def scope_name(path)
     if path.empty?
-      "All data"
+      "all data"
     else
-      path.capitalize
+      path
     end
   end
 end

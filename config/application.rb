@@ -17,7 +17,7 @@ end
 
 module RemoteStorage
 
-  HOSTNAME = 'heahdk.net'
+  HOSTNAME = 'local.dev'
 
   class Application < Rails::Application
 

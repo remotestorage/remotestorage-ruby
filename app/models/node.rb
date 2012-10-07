@@ -81,7 +81,7 @@ class Node < ActiveRecord::Base
     if remove
       listing.delete(key)
     else
-      listing[key] = child.updated_at.to_i
+      listing[key] = (child.updated_at.utc.to_f * 1000).round
     end
     update_directory(listing)
     save!

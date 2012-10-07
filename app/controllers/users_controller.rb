@@ -16,11 +16,11 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
+    @user = current_user
   end
 
   def update
-    @user = User.find(params[:id])
+    @user = current_user
     if @user.update_attributes(params[:user])
       flash[:notice] = "Updated data"
       redirect_to :edit
@@ -28,6 +28,12 @@ class UsersController < ApplicationController
       flash[:error] = "Validation failed"
       render "edit"
     end
+  end
+
+  def dump_data
+    send_data current_user.nodes.order('path ASC').inject({}) {|m, node|
+      m.update(node.path => node.data)
+    }.to_json, :type => 'application/json', :disposition => 'attachment', :filename => "#{current_user.login}-#{RemoteStorage::HOSTNAME}.json"
   end
 
 end

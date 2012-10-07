@@ -4,7 +4,11 @@ RemoteStorage::Application.routes.draw do
 
   resource :session
 
-  resources :users
+  resources :users do
+    member do
+      get :dump_data
+    end
+  end
   resources :password_changes, :only => [:new, :create]
   resources :authorizations
   resources :apps
