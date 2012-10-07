@@ -31,7 +31,7 @@ class Node < ActiveRecord::Base
           puts "CLEAR #{dir.path}"
           dir.update_attributes!(:data => "{}")
         end
-        where(:directory => false) do |node|
+        where(["directory IS NULL OR directory = ?", false]) do |node|
           puts "SET #{node.path}"
           if node.parent
             node.parent.update_child!(self, false)
