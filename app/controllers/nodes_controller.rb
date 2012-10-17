@@ -2,9 +2,8 @@ class NodesController < ApplicationController
 
   before_filter :fix_path
   before_filter :fetch_user
-  before_filter :authorize
-
   before_filter :add_cors_headers
+  before_filter :authorize
 
   def get
     @node = @user.nodes.by_path(params[:path])
