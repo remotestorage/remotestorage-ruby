@@ -6,8 +6,8 @@ module Fixes
     end
 
     def call(env)
-      if env['PATH_INFO'] =~ /^\/storage\/[^\/]+(\/.*)$/
-        env['DATA_PATH'] = $~[1]
+      if env['PATH_INFO'] =~ /^\/storage\/[^\/]+\/(.*)$/
+        env['DATA_PATH'] = $~[1].length > 0 ? $~[1] : '/'
       end
       @app.call(env)
     end
