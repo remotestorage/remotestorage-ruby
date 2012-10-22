@@ -82,10 +82,7 @@ class NodesController < ApplicationController
   end
 
   def fix_path
-    # rails strips trailing slash.
-    # https://github.com/rails/rails/issues/3215
-    params[:path] = ((params[:path] || '') +
-      (request.env['TRAILING_SLASH'] ? '/' : ''))
+    params[:path] = request.env['DATA_PATH']
   end
 
 end

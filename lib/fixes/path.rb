@@ -1,12 +1,14 @@
 module Fixes
-  class TrailingSlash
+  class Path
 
     def initialize(app)
       @app = app
     end
 
     def call(env)
-      env['TRAILING_SLASH'] = !!(env['PATH_INFO'] && env['PATH_INFO'] =~ /\/$/)
+      if env['PATH_INFO'] =~ /^\/storage\/[^\/]+\/(.*)$/
+        env['DATA_PATH'] = $~[1]
+      end
       @app.call(env)
     end
 
