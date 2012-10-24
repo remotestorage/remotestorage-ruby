@@ -10,7 +10,7 @@ class WebfingerController < ApplicationController
       uri = URI.parse(params[:resource])
 
       @user = User.find_by_login(uri.user) || User.find_by_login(uri.user.downcase)
-      if uri.host == RemoteStorage::HOSTNAME && @user)
+      if uri.host == RemoteStorage::HOSTNAME && @user
         render :json => {
           :links => [{
               :rel => 'remoteStorage',
