@@ -44,9 +44,10 @@ class Node < ActiveRecord::Base
   belongs_to :user
 
   validates_uniqueness_of :path, :scope => :user_id
-  validates_presence_of :content_type, :data
+  validates_presence_of :content_type
 
   validate :clean_path
+  validate :data_or_binary_data
   after_save :update_parent_on_save
   after_destroy :update_parent_on_destroy
 
@@ -98,12 +99,35 @@ class Node < ActiveRecord::Base
     else
       listing[key] = (child.updated_at.utc.to_f * 1000).round
     end
-    update_directory(listing)
-    save!
+    if listing.keys.blank?
+      destroy
+    else
+      update_directory(listing)
+      save!
+    end
   end
 
   def bytesize
     [path, data, content_type].map(&:bytesize).inject(:+)
+  end
+
+
+  ## postgres can't convert the 'data' column to binary for some reason.
+  ## due to lack of interest in this problem at the moment, I'm using a
+  ## separate column for non-utf8 data
+
+  def data
+    read_attribute(binary ? :binary_data : :data)
+  end
+
+  def data=(value)
+    if value.encoding == 'UTF-8'
+      self.binary = false
+      write_attribute(:data, value)
+    else
+      self.binary = true
+      write_attribute(:binary_data, value)
+    end
   end
 
   private
@@ -138,6 +162,10 @@ class Node < ActiveRecord::Base
   def update_directory(listing)
     self.content_type ||= 'application/json'
     self.data = JSON.dump(listing)
+  end
+
+  def data_or_binary_data
+    errors.add(:data, :required) unless data or binary_data
   end
 
 end

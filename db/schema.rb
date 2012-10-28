@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120923083708) do
+ActiveRecord::Schema.define(:version => 20121028063506) do
 
   create_table "apps", :force => true do |t|
     t.string   "name"
@@ -35,12 +35,14 @@ ActiveRecord::Schema.define(:version => 20120923083708) do
   add_index "authorizations", ["token"], :name => "index_authorizations_on_token"
 
   create_table "nodes", :force => true do |t|
-    t.string   "path",         :null => false
-    t.text     "data",         :null => false
+    t.string   "path",                            :null => false
+    t.text     "data"
     t.boolean  "directory"
-    t.datetime "updated_at",   :null => false
-    t.string   "content_type", :null => false
-    t.integer  "user_id",      :null => false
+    t.datetime "updated_at",                      :null => false
+    t.string   "content_type",                    :null => false
+    t.integer  "user_id",                         :null => false
+    t.binary   "binary_data"
+    t.boolean  "binary",       :default => false
   end
 
   add_index "nodes", ["path"], :name => "index_nodes_on_path"

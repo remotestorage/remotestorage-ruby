@@ -25,7 +25,7 @@ class NodesController < ApplicationController
 
   def delete
     @node = @user.nodes.by_path(params[:path])
-    unless @node.directory?
+    if @node && (! @node.directory?)
       @node.destroy
     end
     render :text => ''
