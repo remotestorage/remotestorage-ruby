@@ -31,7 +31,7 @@ class Node < ActiveRecord::Base
           puts "CLEAR #{dir.path}"
           dir.update_attributes!(:data => "{}")
         end
-        where(["directory != ?", true]) do |node|
+        where(["directory != ?", true]).each do |node|
           puts "SET #{node.path}"
           if node.parent
             node.parent.update_child!(node, false)
@@ -161,7 +161,7 @@ class Node < ActiveRecord::Base
 
   def update_directory(listing)
     self.content_type ||= 'application/json'
-    self.data = JSON.dump(listing)
+    self.data = JSON.dump(listing).encode('UTF-8')
   end
 
   def data_or_binary_data
