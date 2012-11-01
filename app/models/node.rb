@@ -48,6 +48,9 @@ class Node < ActiveRecord::Base
 
   validate :clean_path
   validate :data_or_binary_data
+
+  before_save :ensure_directory_listing, :if => :directory?
+
   after_save :update_parent_on_save
   after_destroy :update_parent_on_destroy
 
@@ -123,9 +126,11 @@ class Node < ActiveRecord::Base
   def data=(value)
     if value.encoding.name == 'UTF-8'
       self.binary = false
+      write_attribute(:binary_data, '')
       write_attribute(:data, value)
     else
       self.binary = true
+      write_attribute(:data, '')
       write_attribute(:binary_data, value)
     end
   end
