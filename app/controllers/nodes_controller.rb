@@ -7,9 +7,10 @@ class NodesController < ApplicationController
 
   def get
     @node = @user.nodes.by_path(params[:path])
-    headers['Last-Modified'] = (@node ? @node.updated_at : Time.now).iso8601
+    headers['Last-Modified'] = (@node ? @node.updated_at : Time.now).utc.strftime('%a, %d %b %Y %T GMT')
     if @node
-      render :text => @node.data, :content_type => @node.content_type
+      response['Content-Type'] = "#{@node.content_type}; charset=#{@node.binary ? 'binary' : 'utf-8'}"
+      render :text => @node.data
     elsif params[:path] =~ /\/$/
       # empty directory.
       render :json => {}
