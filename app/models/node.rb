@@ -121,7 +121,7 @@ class Node < ActiveRecord::Base
   end
 
   def data=(value)
-    if value.encoding == 'UTF-8'
+    if value.encoding.name == 'UTF-8'
       self.binary = false
       write_attribute(:data, value)
     else
