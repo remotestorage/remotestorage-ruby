@@ -11,6 +11,8 @@ require 'database_cleaner'
 
 RSpec.configure do |config|
 
+  BINARY_CHARSET = RUBY_VERSION >= '1.9.3' ? 'ASCII-8BIT' : 'US-ASCII'
+
   require 'support/launch_helper'
 
   config.include LaunchHelper

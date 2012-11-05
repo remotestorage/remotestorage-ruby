@@ -46,13 +46,13 @@ describe Node do
     end
 
     it "stores binary data correctly" do
-      node = @nodes.put('foo/baz', "blubb".encode('US-ASCII'), 'application/octet-stream', true)
+      node = @nodes.put('foo/baz', "blubb".encode(BINARY_CHARSET), 'application/octet-stream', true)
       node.id.should_not be_nil
       node.content_type.should eq 'application/octet-stream'
       node.binary.should eq true
       node.path.should eq 'foo/baz'
       node.data.should eq 'blubb'
-      node.data.encoding.to_s.should eq 'US-ASCII'
+      node.data.encoding.to_s.should eq BINARY_CHARSET
     end
 
   end
