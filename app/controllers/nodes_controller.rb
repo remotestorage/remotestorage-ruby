@@ -7,20 +7,21 @@ class NodesController < ApplicationController
 
   def get
     @node = @user.nodes.by_path(params[:path])
-    headers['Last-Modified'] = (@node ? @node.updated_at : Time.now).utc.strftime('%a, %d %b %Y %T GMT')
     if @node
-      response['Content-Type'] = "#{@node.content_type}; charset=#{@node.binary ? 'binary' : 'utf-8'}"
+      headers['Last-Modified'] = (@node ? @node.updated_at : Time.now).utc.strftime('%a, %d %b %Y %T GMT')
+      response['Content-Type'] = "#{@node.content_type}; charset=#{@node.binary ? 'binary' : 'UTF-8'}"
       render :text => @node.data
     elsif params[:path] =~ /\/$/
       # empty directory.
-      render :json => {}
+      response['Content-Type'] = 'application/json; charset=UTF-8'
+      render :text => {}
     else
       not_found
     end
   end
 
   def put
-    @user.nodes.put(params[:path], request.raw_post, request.content_type)
+    @user.nodes.put(params[:path], request.raw_post, request.content_type, binary?)
     render :text => ''
   end
 
@@ -67,11 +68,16 @@ class NodesController < ApplicationController
   end
 
   def get_bearer_token
-    if auth = request.headers['Authorization']
+    if auth = get_auth_header
       auth.sub(/^Bearer\s+/, '')
     else
       ''
     end
+  end
+
+  def get_auth_header
+    # no idea, but in some cases only one is set.
+    request.env['HTTP_AUTHORIZATION'] || request.headers['Authorization']
   end
 
   def access_denied
@@ -79,11 +85,15 @@ class NodesController < ApplicationController
   end
 
   def not_found
-    render :status => 404, :text => 'Not Found'
+    render :status => 404, :text => ''
   end
 
   def fix_path
     params[:path] = request.env['DATA_PATH']
+  end
+
+  def binary?
+    request.env['CONTENT_TYPE'].match(/charset=([^\s]+)/)[1] == 'binary'
   end
 
 end

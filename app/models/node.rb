@@ -2,16 +2,16 @@ class Node < ActiveRecord::Base
 
   class << self
 
-    def put(path, data, content_type)
+    def put(path, data, content_type, binary)
       node = by_path(path)
       transaction do
         if node && node.directory?
           # prevent PUT on directories (remoteStorage.js shouldn't send them anyway...)
           return
         elsif node
-          node.update_attributes!(:data => data, :content_type => content_type)
+          node.update_attributes!(:binary => binary, :data => data, :content_type => content_type)
         else
-          create!(:path => path, :data => data, :directory => false, :content_type => content_type)
+          create!(:binary => binary, :path => path, :data => data, :directory => false, :content_type => content_type)
         end
       end
     end
@@ -124,14 +124,12 @@ class Node < ActiveRecord::Base
   end
 
   def data=(value)
-    if value.encoding.name == 'UTF-8'
-      self.binary = false
-      write_attribute(:binary_data, '')
-      write_attribute(:data, value)
-    else
-      self.binary = true
+    if binary
       write_attribute(:data, '')
       write_attribute(:binary_data, value)
+    else
+      write_attribute(:binary_data, '')
+      write_attribute(:data, value)
     end
   end
 

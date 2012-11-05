@@ -26,3 +26,7 @@ gem 'formtastic'
 gem 'pg'
 gem 'unicorn'
 
+group :test do
+  gem 'rspec-rails'
+  gem 'database_cleaner'
+end
