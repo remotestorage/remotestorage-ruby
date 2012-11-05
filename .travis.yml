@@ -1,0 +1,3 @@
+before_script:
+  - "rake db:schema:load"
+script: "rspec spec/"
