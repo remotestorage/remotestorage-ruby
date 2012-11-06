@@ -93,7 +93,8 @@ class NodesController < ApplicationController
   end
 
   def binary?
-    request.env['CONTENT_TYPE'].match(/charset=([^\s]+)/)[1] == 'binary'
+    md = request.env['CONTENT_TYPE'].match(/charset=([^\s]+)/)
+    return md ? md[1] == 'binary' : false
   end
 
 end
