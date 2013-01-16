@@ -9,6 +9,9 @@ class Authorization < ActiveRecord::Base
 
   validates_presence_of :origin, :token
 
+  ## dummy attribute
+  attr_writer :login
+
   class << self
 
     def recover(params)

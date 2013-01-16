@@ -18,6 +18,10 @@ class User < ActiveRecord::Base
     -1
   end
 
+  def user_address
+    "#{login}@#{RemoteStorage::HOSTNAME}"
+  end
+
   def quota_used
     nodes.inject(0) {|m, node|
       m + node.bytesize

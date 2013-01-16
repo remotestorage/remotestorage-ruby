@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
 
   def new
-    @session = Session.new(:login => params[:login])
+    @session = Session.new(:login => (params[:login] || (params[:auth] && params[:auth][:login])))
   end
 
   def create
@@ -21,7 +21,7 @@ class SessionsController < ApplicationController
     @session = Session.find(params[:id])
     @session.destroy
 
-    redirect_to :action => 'new'
+    redirect_to(params[:redirect_uri] || { :action => 'new' })
   end
 
 end

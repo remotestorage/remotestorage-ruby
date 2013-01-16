@@ -1,0 +1,17 @@
+
+%p
+  You are currently logged in as
+  %strong= current_user.login
+  , but requested a token for user
+  %strong= auth_params[:login]
+  = '.'
+  
+  %p
+    If you want to continue authorizing as #{auth_params[:login]}, please click
+    = link_to 'here', session_url(:id => current_session.id, :redirect_uri => new_authorization_url(auth_params)), :method => :delete
+  %p
+    If you want to stay logged in as #{current_user.login}, click
+    = link_to 'here', auth_params[:redirect_uri]
+    to return to the app and enter
+    %strong= current_user.user_address
+    as your user address.

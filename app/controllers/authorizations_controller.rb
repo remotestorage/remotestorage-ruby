@@ -2,11 +2,16 @@ class AuthorizationsController < ApplicationController
 
   before_filter :require_login
 
+  helper_method :auth_params
+
   def index
     @authorizations = collection
   end
 
   def new
+    if auth_params[:login] && auth_params[:login] != current_user.login
+      render 'logout_first' and return
+    end
     if @authorization = collection.recover(auth_params)
       redirect_to @authorization.token_redirect_uri
     else
@@ -40,7 +45,8 @@ class AuthorizationsController < ApplicationController
   def auth_params
     return {
       :scope => params[:scope],
-      :redirect_uri => params[:redirect_uri]
+      :redirect_uri => params[:redirect_uri],
+      :login => params[:login]
     }
   end
 
