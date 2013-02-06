@@ -17,7 +17,7 @@ end
 
 module RemoteStorage
 
-  HOSTNAME = ENV['REMOTESTORAGE_HOSTNAME'] || 'local.dev'
+  HOSTNAME = ENV['HOSTNAME'] || 'local.dev'
 
   class Application < Rails::Application
 
