@@ -24,8 +24,10 @@ module RemoteStorage
     require 'uri/acct'
 
     require 'fixes/path'
+    require 'fixes/strip_last_modified'
 
     config.middleware.use Fixes::Path
+    config.middleware.use Fixes::StripLastModified
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
