@@ -18,7 +18,7 @@ describe "Nodes requests" do
       )
 
       @user.nodes.put('foo/bar', 'baz'.encode('UTF-8'), 'text/plain', false)
-      @user.nodes.put('foo/bin', 'blablubb'.encode('US-ASCII'), 'application/octet-stream', true)
+      @user.nodes.put('foo/bin', 'blablubb'.encode(BINARY_CHARSET), 'application/octet-stream', true)
       @user.nodes.put('bla/blubb', 'baz', 'text/plain', false)
     end
 
