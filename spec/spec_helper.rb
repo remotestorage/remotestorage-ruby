@@ -18,7 +18,7 @@ RSpec.configure do |config|
   config.include LaunchHelper
 
   config.before(:suite) do
-    DatabaseCleaner.strategy = :truncation
+    DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
   end
 
