@@ -121,6 +121,13 @@ describe "Nodes requests" do
       response.status.should eq 401
     end
 
+    it "doesn't unescape URI encoded parts in the DATA_PATH" do
+      send_request('/storage/blue/foo/bar%2Fbaz', 'foo', 'text/plain; charset=UTF-8')
+      response.status.should eq 200
+      node = @user.nodes.by_path('foo/bar%2Fbaz')
+      node.should_not be_nil
+    end
+
   end
 
 end
