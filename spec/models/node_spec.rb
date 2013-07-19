@@ -52,7 +52,8 @@ describe Node do
       node.binary.should eq true
       node.path.should eq 'foo/baz'
       node.data.should eq 'blubb'
-      node.data.encoding.to_s.should eq BINARY_CHARSET
+      encoding = node.data.encoding.to_s
+      (encoding == 'US-ASCII' || encoding == 'ASCII-8BIT').should be_true
     end
 
   end
