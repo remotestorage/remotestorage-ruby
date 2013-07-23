@@ -55,7 +55,7 @@ class Authorization < ActiveRecord::Base
   def allows?(mode, path)
     scopes.each do |scope, m|
       logger.info "Check scope: #{scope.inspect} vs. #{path.inspect}"
-      if path =~ /^#{scope}(?:\/|$)/ || path =~ /^public\/#{scope}(?:\/|$)/
+      if scope == '' || path =~ /^#{scope}(?:\/|$)/ || path =~ /^public\/#{scope}(?:\/|$)/
         return (mode == :read || m == 'rw')
       end
     end
