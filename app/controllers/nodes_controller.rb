@@ -10,6 +10,9 @@ class NodesController < ApplicationController
     if @node
       headers['Last-Modified'] = (@node ? @node.updated_at : Time.now).utc.strftime('%a, %d %b %Y %T GMT')
       response['Content-Type'] = "#{@node.content_type}; charset=#{@node.binary ? 'binary' : 'UTF-8'}"
+      unless @node.directory?
+        response['Content-Length'] = @node.data.bytesize.to_s
+      end
       render :text => @node.data
     elsif params[:path] =~ /\/$/
       # empty directory.
